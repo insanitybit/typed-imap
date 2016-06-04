@@ -1,0 +1,10 @@
+[package]
+name = "typed-imap"
+version = "0.1.0"
+authors = ["insanitybit <insanitybit@gmail.com>"]
+
+[dependencies]
+openssl = "*"
+rand = "*"
+regex = "*"
+lazy_static = "0.1.*"
