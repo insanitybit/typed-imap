@@ -10,10 +10,10 @@ Currently in the fledgling stages. Entirely *not* working, no stable API.
 # Example
 
 ```rust
-extern crate imaprs;
+extern crate types_imap;
 
-use imaprs::client::*;
-use imaprs::connection::IMAPConnection;
+use types_imap::client::*;
+use types_imap::connection::IMAPConnection;
 
 fn main() {
     let client = {
