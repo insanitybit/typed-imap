@@ -10,6 +10,7 @@ pub struct Address<'a> {
     pub addr_host: &'a [u8],
 }
 
+#[derive(Debug)]
 pub struct Envelope<'a> {
     pub date: &'a [u8],
     pub subject: &'a [u8],
@@ -100,6 +101,7 @@ named!(pub astring_char,
    )
 );
 
+#[inline_always]
 named!(many_addr_or_nil <&[u8], Option<Vec<Address> > >,
     alt!(
         chain!(
@@ -247,7 +249,6 @@ named!(pub envelope <&[u8], Envelope>,
         char!(')'),
         || {
             Envelope {
-
                 date: date,
                 subject: subject,
                 from: from,
@@ -258,8 +259,6 @@ named!(pub envelope <&[u8], Envelope>,
                 bcc: bcc,
                 in_reply_to: in_reply_to,
                 message_id: message_id,
-
-
             }
         }
     )
