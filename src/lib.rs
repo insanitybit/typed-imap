@@ -3,6 +3,8 @@ extern crate rand;
 extern crate regex;
 #[macro_use]
 extern crate lazy_static;
+#[macro_use]
+extern crate nom;
 
 pub mod imaperror;
 
@@ -16,13 +18,9 @@ macro_rules! try_imap {
     })
 }
 
-
-
-pub mod lexer;
 pub mod validate_helpers;
 pub mod response;
-// pub mod parseerror;
-// pub mod parser;
+pub mod parser;
 pub mod client;
 pub mod connection;
 pub mod mailbox;

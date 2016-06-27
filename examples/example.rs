@@ -1,7 +1,7 @@
-extern crate imaprs;
+extern crate typed_imap;
 
-use imaprs::client::*;
-use imaprs::connection::IMAPConnection;
+use typed_imap::client::*;
+use typed_imap::connection::IMAPConnection;
 
 fn main() {
     let client = {
