@@ -3,8 +3,6 @@
 # imap-rs
 A typesafe client library for the IMAP protocol.
 
-Started off as a fork of [this library](https://github.com/mattnenterprise/rust-imap)
-
 Currently in the fledgling stages. Entirely *not* working, no stable API.
 
 # Example
