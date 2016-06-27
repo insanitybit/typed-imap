@@ -2,6 +2,13 @@ use nom::IResult::*;
 use nom::*;
 
 
+
+#[derive(Debug)]
+pub enum SequenceSet<'a> {
+    Number(&'a [u8]),
+    Range(SeqRange<'a>),
+}
+
 #[derive(Debug)]
 pub struct Address<'a> {
     pub addr_name: &'a [u8],
@@ -24,6 +31,44 @@ pub struct Envelope<'a> {
     pub message_id: &'a [u8],
 }
 
+
+#[derive(Debug)]
+pub struct SeqRange<'a> {
+    pub start: &'a [u8],
+    pub end: &'a [u8],
+}
+
+named!(pub nz_digit,
+    alt!(tag!(b"1")
+        | tag!(b"2")
+        | tag!(b"3")
+        | tag!(b"4")
+        | tag!(b"5")
+        | tag!(b"6")
+        | tag!(b"7")
+        | tag!(b"8")
+        | tag!(b"9")
+    )
+);
+
+pub fn nz_number(bytes: &[u8]) -> IResult<&[u8], &[u8]> {
+    let mut offset = 0;
+
+    if nz_digit(&bytes[..1]).is_done() {
+        offset += 1;
+    } else {
+        return take!(bytes, 0);
+    }
+
+    loop {
+        if digit(&bytes[offset..]).is_done() {
+            offset += 1;
+        } else {
+            break;
+        }
+    }
+    take!(bytes, offset)
+}
 
 named!(pub nil,
     alt!(
@@ -101,7 +146,7 @@ named!(pub astring_char,
    )
 );
 
-#[inline_always]
+#[inline(always)]
 named!(many_addr_or_nil <&[u8], Option<Vec<Address> > >,
     alt!(
         chain!(
@@ -199,6 +244,40 @@ named!(pub env_to <&[u8], Option<Vec<Address> > >,
         || {
             maon
         })
+);
+
+named!(pub seq_number,
+    alt!(
+        nz_number
+        | tag!("*")
+    )
+);
+
+named!(pub seq_range <&[u8], SeqRange >,
+    chain!(
+        start: seq_number ~
+        tag!(":") ~
+        end: seq_number,
+        || {
+            SeqRange {
+                start: start,
+                end: end,
+            }
+        }
+    )
+);
+
+named!(pub sequence_set <&[u8], Vec<SequenceSet> >,
+    separated_nonempty_list!(tag!(","),
+        alt!(
+            chain!(num: seq_number, || {
+                SequenceSet::Number(num)
+            })
+            | chain!(range: seq_range, || {
+                SequenceSet::Range(range)
+            })
+        )
+    )
 );
 
 named!(pub address <&[u8], Address>,
