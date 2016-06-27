@@ -35,4 +35,4 @@ fn main() {
 
 ```
 
-See [examples/](https://github.com/insanitybit/imap-rs/tree/master/examples) for more.
+See [examples/](https://github.com/insanitybit/typed-imap/tree/master/examples) for more.
