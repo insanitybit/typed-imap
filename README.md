@@ -1,6 +1,6 @@
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/insanitybit/imap-rs/blob/master/LICENSE)
 
-# imap-rs
+# typed-imap
 A typesafe client library for the IMAP protocol.
 
 Currently in the fledgling stages. Entirely *not* working, no stable API.
@@ -8,10 +8,10 @@ Currently in the fledgling stages. Entirely *not* working, no stable API.
 # Example
 
 ```rust
-extern crate types_imap;
+extern crate typed_imap;
 
-use types_imap::client::*;
-use types_imap::connection::IMAPConnection;
+use typed_imap::client::*;
+use typed_imap::connection::IMAPConnection;
 
 fn main() {
     let client = {
